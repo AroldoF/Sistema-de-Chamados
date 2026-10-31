@@ -1,0 +1,135 @@
+@baseUrl = http://localhost:8080
+
+### Listar setores
+GET {{baseUrl}}/setores?page=0&size=10&sort=name,asc
+
+### Criar setor
+POST {{baseUrl}}/setores
+Content-Type: application/json
+
+{
+  "name": "Biblioteca",
+  "code": "BIB"
+}
+
+### Consultar e atualizar setor
+GET {{baseUrl}}/setores/1
+
+PUT {{baseUrl}}/setores/1
+Content-Type: application/json
+
+{
+  "name": "Coordenação de Tecnologia da Informação",
+  "code": "COTIC"
+}
+
+### Excluir setor sem categorias ou chamados
+DELETE {{baseUrl}}/setores/3
+
+### Listar e criar categorias
+GET {{baseUrl}}/categorias?setorId=1
+
+POST {{baseUrl}}/categorias
+Content-Type: application/json
+
+{
+  "name": "Sistemas",
+  "description": "Sistemas institucionais e contas.",
+  "departmentId": 1
+}
+
+### Consultar, atualizar e excluir categoria
+GET {{baseUrl}}/categorias/1
+
+PUT {{baseUrl}}/categorias/1
+Content-Type: application/json
+
+{
+  "name": "Hardware",
+  "description": "Computadores, projetores e periféricos.",
+  "departmentId": 1
+}
+
+DELETE {{baseUrl}}/categorias/5
+
+### Categorias de um setor
+GET {{baseUrl}}/setores/1/categorias
+
+### Listar, criar, consultar e atualizar usuários
+GET {{baseUrl}}/usuarios?tipo=TECNICO&setorId=1
+
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+
+{
+  "name": "Eduardo Técnico",
+  "email": "eduardo@ifrn.edu.br",
+  "registration": "20260005",
+  "type": "TECNICO",
+  "departmentId": 1
+}
+
+GET {{baseUrl}}/usuarios/1
+
+PUT {{baseUrl}}/usuarios/1
+Content-Type: application/json
+
+{
+  "name": "Ana Solicitante",
+  "email": "ana@ifrn.edu.br",
+  "registration": "20260001",
+  "type": "SOLICITANTE"
+}
+
+### Abrir e filtrar chamados
+POST {{baseUrl}}/chamados
+Content-Type: application/json
+
+{
+  "title": "Projetor sem imagem",
+  "description": "O projetor da sala 12 liga, mas não exibe imagem.",
+  "location": "Sala 12",
+  "priority": "ALTA",
+  "requesterId": 1,
+  "categoryId": 1
+}
+
+GET {{baseUrl}}/chamados?status=ABERTO&setorId=1&prioridade=ALTA&page=0&size=10&sort=dataAbertura,desc
+
+### Detalhar, assumir, interagir e resolver chamado
+GET {{baseUrl}}/chamados/1
+
+PATCH {{baseUrl}}/chamados/1/assumir
+Content-Type: application/json
+
+{
+  "technicianId": 3
+}
+
+POST {{baseUrl}}/chamados/1/interacoes
+Content-Type: application/json
+
+{
+  "text": "Vou verificar o equipamento nesta manhã.",
+  "authorId": 3
+}
+
+PATCH {{baseUrl}}/chamados/1/resolver
+Content-Type: application/json
+
+{
+  "technicianId": 3,
+  "solution": "Cabo HDMI substituído e equipamento testado."
+}
+
+### Cancelar um chamado ainda aberto
+PATCH {{baseUrl}}/chamados/2/cancelar
+Content-Type: application/json
+
+{
+  "requesterId": 2
+}
+
+### Chamados de solicitante ou técnico
+GET {{baseUrl}}/usuarios/1/chamados?status=ABERTO
+GET {{baseUrl}}/usuarios/3/chamados?status=EM_ATENDIMENTO
