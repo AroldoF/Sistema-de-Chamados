@@ -14,6 +14,8 @@ A API ficará disponível em `http://localhost:8080`. O compose cria e mantém o
 
 ## Rotas
 
+[Documentação Swagger](http://localhost:8080/swagger-ui/index.html#/) ou `swagger-ui/index.html#/`
+
 | Recurso | Rotas |
 | --- | --- |
 | Setores | `POST`, `GET`, `GET /{id}`, `PUT /{id}`, `DELETE /{id}` em `/setores` |
